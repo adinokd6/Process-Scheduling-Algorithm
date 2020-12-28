@@ -1,7 +1,7 @@
 from generator import Generator
 
 
-k=Generator(15,20,3)
+k=Generator(1)
 
-k.generate_processes()
+
 

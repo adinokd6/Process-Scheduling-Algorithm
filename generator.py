@@ -4,12 +4,12 @@ from process import Process
 
 
 class Generator:
-    def __init__(self,state=0): #state can be read or generate e.g read=1 generate=0  #state can be read or generate e.g read=1 generate=0
+    def __init__(self,state): #state can be read or generate e.g read=1 generate=0
         if state==0:
             self.set_conditions()
         else:
-            input("File path: ")
-            self.read()
+            f=input("File path: ")
+            self.read(f)
 
 
     def set_conditions(self):
@@ -23,7 +23,21 @@ class Generator:
         self.random_arrival_time()
 
     def read(self,file_path):
-        f=open(file_path,"r")
+        f=open(file_path,'r').read()
+        lines=f.split('\n')    #
+        lines.pop(len(lines)-1)
+
+        tmp_processes=[]
+
+        for line in lines:
+            tmp=line.split(" ")
+            tmp_id,tmp_arrival_time,tmp_duration=tmp
+            tmp_processes.append(self.new_Process(tmp_id,tmp_arrival_time,tmp_duration))
+
+        return tmp_processes
+
+
+
 
     def write(self,file_path):
         w=open(file_path,"w")
