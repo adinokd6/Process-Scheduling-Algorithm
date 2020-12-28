@@ -32,6 +32,3 @@ class Process:
 
     def return_waiting_time(self):
         return self.waiting_time
-
-    def print_process(self):
-        print(str(self.id)+" - Arrival time: "+str(self.arrival_time)+" - Duration: "+str(self.duration))
