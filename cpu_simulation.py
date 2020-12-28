@@ -6,13 +6,23 @@ class CPU:
         self.s=Scheduler()
 
     def do_cycle(self):
-        self.s.get_process()
-        self.cycle=self.cycle+1
         if self.s.check_empty_list()==False:
+            self.s.check()
+            self.s.get_process()
+            self.cycle+=1
+            self.s.receive_time(self.cycle)
             return True
+        else:
+            return False
+
+
+
 
     def run(self):
         while True:
-            self.do_cycle()
+            print(self.cycle)
+            if self.do_cycle()==False:
+                break
+
 
 
