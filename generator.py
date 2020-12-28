@@ -4,7 +4,18 @@ from process import Process
 
 
 class Generator:
-    def __init__(self,number_of_processes,mean_duration,standard_deviation):
+    def __init__(self,state=0): #state can be read or generate e.g read=1 generate=0  #state can be read or generate e.g read=1 generate=0
+        if state==0:
+            self.set_conditions()
+        else:
+            input("File path: ")
+            self.read()
+
+
+    def set_conditions(self):
+        number_of_processes=int(input("Liczba procesow: "))
+        mean_duration=int(input("Srednia wartosc: "))
+        standard_deviation=int(("Odchylenie standardowe: "))
         self.number_of_processes=number_of_processes
         self.mean_duration=mean_duration
         self.standard_deviation=standard_deviation
@@ -52,8 +63,7 @@ class Generator:
         for i in range(self.number_of_processes):
             tmp.append(self.new_Process(i,self.get_arrival_time(),self.get_duration()))
 
-        for i in range(self.number_of_processes):
-            tmp[i].print_process()
+        return tmp
             
 
 

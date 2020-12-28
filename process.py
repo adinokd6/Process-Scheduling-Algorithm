@@ -15,10 +15,7 @@ class Process:
         self.duration-=duration
 
     def is_done(self,state):
-        if self.is_done==False:
-            return False
-        else:
-            return True
+        return self.is_done
 
     def check_duration(self):
         if self.duration==0:
