@@ -4,26 +4,28 @@ from process import Process
 
 
 class Generator:
-    def __init__(self,state): #state can be read or generate e.g read=1 generate=0
+    def __init__(self,state=0): #state can be read or generate (default is set to generate) e.g read=1 generate=0
         if state==0:
             self.set_conditions()
         else:
             f=input("File path: ")
-            self.read(f)
+            self.file_path=f
+            self.read()
 
 
     def set_conditions(self):
         number_of_processes=int(input("Liczba procesow: "))
         mean_duration=int(input("Srednia wartosc: "))
-        standard_deviation=int(("Odchylenie standardowe: "))
+        standard_deviation=int(input("Odchylenie standardowe: "))
         self.number_of_processes=number_of_processes
         self.mean_duration=mean_duration
         self.standard_deviation=standard_deviation
         self.random_duration()
         self.random_arrival_time()
+        self.generate_processes()
 
-    def read(self,file_path):
-        f=open(file_path,'r').read()
+    def read(self):
+        f=open(self.file_path,'r').read()
         lines=f.split('\n')    #
         lines.pop(len(lines)-1)
 
@@ -34,10 +36,19 @@ class Generator:
             tmp_id,tmp_arrival_time,tmp_duration=tmp
             tmp_processes.append(self.new_Process(tmp_id,tmp_arrival_time,tmp_duration))
 
-        return tmp_processes
+        self.list_of_processes=tmp_processes
 
+    def return_list(self):
+        return self.list_of_processes
 
+    def is_empty(self):
+        if not self.list_of_processes:
+            return True
+        else:
+            return False
 
+    def remove_process(self,number):
+        self.list_of_processes.pop(number)
 
     def write(self,file_path):
         w=open(file_path,"w")
@@ -53,11 +64,21 @@ class Generator:
     def random_arrival_time(self): #TODO dobrze dobrac granice losowania liczb, arrival time nie moze byc rowne sumie duration
         sum=0
         self.numbers_arrival=[]
+        set_of_arrivals=set()
+
         for i in range(len(self.numbers_duration)):
-            self.numbers_arrival.append(random.randint(0, sum))
+            tmp=random.randint(0,sum) #
+            while tmp in set_of_arrivals:
+                tmp=random.randint(0,sum)
+
+            set_of_arrivals.add(tmp)
+
+            self.numbers_arrival.append(tmp)
             sum = sum + self.numbers_duration[i]
 
-
+        arr=numpy.array(self.numbers_arrival)
+        tmp=numpy.sort(arr)
+        self.numbers_arrival=tmp.tolist()
 
 
     def get_duration(self):
@@ -67,9 +88,8 @@ class Generator:
         return tmp
 
     def get_arrival_time(self):
-        x=random.randint(0,len(self.numbers_arrival)-1)
-        tmp=self.numbers_arrival[x]
-        self.numbers_arrival.pop(x)
+        tmp=self.numbers_arrival[0]
+        self.numbers_arrival.pop(0)
         return tmp
 
     def generate_processes(self):
@@ -77,7 +97,7 @@ class Generator:
         for i in range(self.number_of_processes):
             tmp.append(self.new_Process(i,self.get_arrival_time(),self.get_duration()))
 
-        return tmp
+        self.list_of_processes=tmp
             
 
 

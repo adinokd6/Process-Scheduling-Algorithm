@@ -11,8 +11,8 @@ class Process:
     def write_wait_time(self,wait_time):
         self.waiting_time=wait_time
 
-    def remaining_duration(self,duration):
-        self.duration-=duration
+    def reduce_duration(self):
+        self.duration-=1
 
     def is_done(self,state):
         return self.is_done
@@ -29,3 +29,6 @@ class Process:
 
     def return_waiting_time(self):
         return self.waiting_time
+
+    def print_p(self):
+        print(str(self.id)+" Arrival time: "+str(self.arrival_time)+" Duration: "+str(self.duration))
