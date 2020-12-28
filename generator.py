@@ -33,7 +33,9 @@ class Generator:
 
         for line in lines:
             tmp=line.split(" ")
-            tmp_id,tmp_arrival_time,tmp_duration=tmp
+            tmp_id=int(tmp[0])
+            tmp_arrival_time=int(tmp[1])
+            tmp_duration=int(tmp[2])
             tmp_processes.append(self.new_Process(tmp_id,tmp_arrival_time,tmp_duration))
 
         self.list_of_processes=tmp_processes

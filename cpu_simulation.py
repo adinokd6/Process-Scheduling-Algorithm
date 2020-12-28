@@ -3,7 +3,7 @@ from scheduler import Scheduler
 class CPU:
     def __init__(self):
         self.cycle=0
-        self.s=Scheduler()
+        self.s=Scheduler(1)
 
     def do_cycle(self):
         if self.s.check_empty_list()==False:
@@ -20,9 +20,9 @@ class CPU:
 
     def run(self):
         while True:
-            print(self.cycle)
             if self.do_cycle()==False:
                 break
 
+        print(self.cycle)
 
 
