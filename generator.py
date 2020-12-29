@@ -20,6 +20,7 @@ class Generator:
         self.number_of_processes=number_of_processes
         self.mean_duration=mean_duration
         self.standard_deviation=standard_deviation
+        self.numbers_duration=[]
         self.random_duration()
         self.random_arrival_time()
         self.generate_processes()
@@ -59,11 +60,17 @@ class Generator:
         tmp=Process(id,arrival_time,duration)
         return tmp
 
-    def random_duration(self):
-        arr = numpy.random.normal(loc=self.mean_duration, scale=self.standard_deviation,size=self.number_of_processes).round(0).astype(numpy.int)  # array of random duration time
-        self.numbers_duration = arr.tolist()
+    def random_duration(self): #TODO generator losuje liczby i duration niekiedy wynosi 0. Trzeba to jakos naprawic
+        arr = numpy.random.normal(loc=self.mean_duration, scale=self.standard_deviation,size=(self.number_of_processes+100)).round(0).astype(numpy.int)  # array of random duration time
+        tmp_arr=arr.tolist()
+        var=0
+        for i in range(self.number_of_processes):
+            while var <= 0:
+                var = random.choice(tmp_arr)
+            self.numbers_duration.append(var)
+            var=0
 
-    def random_arrival_time(self): #TODO dobrze dobrac granice losowania liczb, arrival time nie moze byc rowne sumie duration
+    def random_arrival_time(self):
         sum=0
         self.numbers_arrival=[]
         set_of_arrivals=set()
@@ -97,7 +104,8 @@ class Generator:
     def generate_processes(self):
         tmp=[]
         for i in range(self.number_of_processes):
-            tmp.append(self.new_Process(i,self.get_arrival_time(),self.get_duration()))
+            tmp_id=i+1
+            tmp.append(self.new_Process(tmp_id,self.get_arrival_time(),self.get_duration()))
 
         self.list_of_processes=tmp
             

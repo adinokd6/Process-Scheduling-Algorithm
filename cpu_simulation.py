@@ -1,9 +1,15 @@
 from scheduler import Scheduler
 
+generate=0
+read=1
+sjf=1
+sjf_p=2
+fcfs=0
+
 class CPU:
     def __init__(self):
         self.cycle=0
-        self.s=Scheduler(1,1)
+        self.s=Scheduler(generate,sjf)
 
     def do_cycle(self):
         if self.s.check_empty_list()==False:

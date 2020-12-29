@@ -12,8 +12,10 @@ class Sjf_np:
         self.sort_list()
 
     def delete_process(self,id):
+        print("Dlugosc tablicy: "+str(len(self.list)))
         for i in range(len(self.list)):
-            print("Wartosc: "+str(id))
+            print("Eureka")
+            print("Zwrocona wart: "+str(self.list[len(self.list)].return_id()))
             if self.list[i].return_id()==id:
                 self.list.pop(i)
         self.sort_list()
@@ -24,8 +26,3 @@ class Sjf_np:
             for j in range(0,n-i-1):
                 if self.list[j].return_duration() > self.list[j + 1].return_duration() and self.list[j].return_arrival_time():
                     self.list[j], self.list[j + 1] = self.list[j + 1], self.list[j]
-
-    # def get_waiting_time(self,id):
-    #     for i in range(len(self.list)):
-    #         if self.list[i].return_id()==id:
-    #             tmp=i

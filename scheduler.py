@@ -19,22 +19,27 @@ class Scheduler:
             pass
         else:
             if self.time==self.list_to_load[0].return_arrival_time():
+                print(self.time)
                 tmp=self.list_to_load[0]
                 self.list_to_load.pop(0)
                 self.sorting_algorithm.add_to_list(tmp)
                 self.main_list=self.sorting_algorithm.return_list()
+                print("Dupa")
 
         if self.alg==1 and self.main_list[self.id].is_done()==True:
             tmp = self.main_list[self.id].return_id()
             self.sorting_algorithm.delete_process(tmp)
 
 
-
-    def load_list(self):
+    def load_list(self): #TODO Rozne czasy przyjscia i dopiero na nich mozna operowac
         tmp_list=[]
+        tmp=0
         self.list_to_load=self.g.return_list()
         for i in range(len(self.list_to_load)):
             self.list_to_load[i].print_p()
+            tmp+=self.list_to_load[i].return_duration()
+
+        print("Duration: "+str(tmp))
 
     def return_list(self):
         return self.main_list
@@ -48,7 +53,6 @@ class Scheduler:
     def check_empty_list(self):
         if self.id>(len(self.main_list)-1):
             return True
-
         else:
             return False
 
