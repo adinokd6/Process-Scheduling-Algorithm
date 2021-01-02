@@ -3,6 +3,7 @@
 class Process:
     def __init__(self,id,arrival_time,duration):
         self.id=id
+        self.last_time=0
         self.duration=duration
         self.start_duration=duration
         self.arrival_time=arrival_time
@@ -15,6 +16,12 @@ class Process:
 
     def pause(self):
         self.is_running=False
+
+    def calculate_mileage(self):
+        self.last_time = self.last_time +1
+
+    def return_lt(self):
+        return self.last_time
 
     def write_wait_time(self,waiting_time):
         self.waiting_time=waiting_time
@@ -53,3 +60,6 @@ class Process:
 
     def print_p(self):
         print("Id: "+str(self.id)+" Is done: "+str(self.is_done()))
+
+    def print_pr(self):
+        print("Id: " + str(self.id) + " Duration: " + str(self.return_duration()))

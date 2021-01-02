@@ -1,6 +1,7 @@
 from generator import Generator
 from fcfs_algorithm import Fcfs
 from sjf_non_preemptive import Sjf_np
+from sjf_preemtive import Sjf_p
 
 class Scheduler:
     def __init__(self,state=0,alg=0): #state can be read or generate (default is set to generate) e.g read=1 generate=0
@@ -26,8 +27,8 @@ class Scheduler:
             self.sorting_algorithm=Fcfs()
         elif self.alg==1:
             self.sorting_algorithm=Sjf_np()
-        else:
-            print("SJF Preemtive")
+        elif self.alg==2:
+            self.sorting_algorithm=Sjf_p()
 
     def sort(self):
         self.sorting_algorithm.sort_list(self.main_list)
@@ -56,8 +57,8 @@ class Scheduler:
 
 
         self.main_list[self.current_id].check_duration()
+
         if self.main_list[self.current_id].is_done() == True:
-            self.main_list[self.current_id].print_p()
             self.current_id += 1
 
     def check_empty_list(self):
@@ -70,8 +71,11 @@ class Scheduler:
         self.init=False
 
     def show(self):
-        for i in range(len(self.main_list)):
-            print("Process id: "+str(self.main_list[i].return_id())+" Waiting time: " + str(self.main_list[i].return_waiting_time()))
+        if self.alg==2:
+            self.sorting_algorithm.show()
+        else:
+            for i in range(len(self.main_list)):
+                print("Process id: "+str(self.main_list[i].return_id())+" Waiting time: " + str(self.main_list[i].return_waiting_time()))
 
 
 
