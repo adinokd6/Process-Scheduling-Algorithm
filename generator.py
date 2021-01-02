@@ -17,9 +17,11 @@ class Generator:
         number_of_processes=int(input("Liczba procesow: "))
         mean_duration=int(input("Srednia wartosc: "))
         standard_deviation=int(input("Odchylenie standardowe: "))
+        randomization_arrival_time=int(input("Rozne czasy przyjscia?: 1-Tak 0-Nie: "))
         self.number_of_processes=number_of_processes
         self.mean_duration=mean_duration
         self.standard_deviation=standard_deviation
+        self.randomization_arrival_time=randomization_arrival_time
         self.numbers_duration=[]
         self.random_duration()
         self.random_arrival_time()
@@ -77,8 +79,9 @@ class Generator:
 
         for i in range(len(self.numbers_duration)):
             tmp=random.randint(0,sum) #
-            while tmp in set_of_arrivals:
-                tmp=random.randint(0,sum)
+            if self.randomization_arrival_time==1:
+                while tmp in set_of_arrivals:
+                    tmp=random.randint(0,sum)
 
             set_of_arrivals.add(tmp)
 

@@ -1,28 +1,29 @@
 from process import Process
 
 class Sjf_np:
-    def __init__(self):
-        self.list= []
+    def sort_list(self,list):
+        n=len(list)
+        list=self.sort_by_arrival_time(list)
+        for i in range(n):
 
-    def return_list(self):
-        return self.list
+            for j in range(0,n-i-1):
+                if list[j].return_start_duration()>list[j + 1].return_start_duration() and list[j].return_is_running()==False and list[j].is_done()==False:
+                    list[j], list[j + 1] = list[j + 1], list[j]
+        return list
 
-    def add_to_list(self,Process): #return_duration
-        self.list.append(Process)
-        self.sort_list()
+    def wait_time(self,list):
+        n=len(list)
+        for i in range(n):
+            if list[i].return_is_running() == False and list[i].is_done() == False:
+                list[i].add_wait_time()
 
-    def delete_process(self,id):
-        print("Dlugosc tablicy: "+str(len(self.list)))
-        for i in range(len(self.list)):
-            print("Eureka")
-            print("Zwrocona wart: "+str(self.list[len(self.list)].return_id()))
-            if self.list[i].return_id()==id:
-                self.list.pop(i)
-        self.sort_list()
+        return list
 
-    def sort_list(self):
-        n=len(self.list)
+    def sort_by_arrival_time(self,list):
+        n=len(list)
         for i in range(n):
             for j in range(0,n-i-1):
-                if self.list[j].return_duration() > self.list[j + 1].return_duration() and self.list[j].return_arrival_time():
-                    self.list[j], self.list[j + 1] = self.list[j + 1], self.list[j]
+                if list[j].return_arrival_time()>list[j + 1].return_arrival_time() and list[j].return_is_running()==False and list[j].is_done()==False:
+                    list[j], list[j + 1] = list[j + 1], list[j]
+
+        return list

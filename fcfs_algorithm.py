@@ -1,12 +1,22 @@
 
 class Fcfs:
-    def __init__(self):
-        self.list_to_sort=[]
 
-    def add_to_list(self,process):
-        self.list_to_sort.append(process)
+    def sort_list(self,list):
+        n=len(list)
+        for i in range(n):
+            for j in range(0,n-i-1):
+                if list[j].return_arrival_time()>list[j + 1].return_arrival_time() and list[j].return_is_running()==False and list[j].is_done()==False:
+                    list[j], list[j + 1] = list[j + 1], list[j]
 
-    def return_list(self):
-        return self.list_to_sort
+        return list
+
+    def wait_time(self,list):
+        n=len(list)
+        for i in range(n):
+            if list[i].return_is_running() == False and list[i].is_done() == False:
+                list[i].add_wait_time()
+
+        return list
+
 
 

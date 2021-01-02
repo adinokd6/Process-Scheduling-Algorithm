@@ -4,95 +4,74 @@ from sjf_non_preemptive import Sjf_np
 
 class Scheduler:
     def __init__(self,state=0,alg=0): #state can be read or generate (default is set to generate) e.g read=1 generate=0
-        self.id=0
         self.time=0
+        self.current_id=0
+        self.init=True
+        self.alg=alg
+        self.main_list=[]
+        self.algorithm()
         self.g=Generator(state)
         self.load_list()
-        self.alg=alg
-        self.algorithm()
         self.check()
 
-
-    def check(self):
-
-        if not self.list_to_load:
-            pass
-        else:
-            if self.time==self.list_to_load[0].return_arrival_time():
-                print(self.time)
-                tmp=self.list_to_load[0]
-                self.list_to_load.pop(0)
-                self.sorting_algorithm.add_to_list(tmp)
-                self.main_list=self.sorting_algorithm.return_list()
-                print("Dupa")
-
-        if self.alg==1 and self.main_list[self.id].is_done()==True:
-            tmp = self.main_list[self.id].return_id()
-            self.sorting_algorithm.delete_process(tmp)
-
-
-    def load_list(self): #TODO Rozne czasy przyjscia i dopiero na nich mozna operowac
-        tmp_list=[]
-        tmp=0
-        self.list_to_load=self.g.return_list()
-        for i in range(len(self.list_to_load)):
-            self.list_to_load[i].print_p()
-            tmp+=self.list_to_load[i].return_duration()
-
-        print("Duration: "+str(tmp))
-
-    def return_list(self):
-        return self.main_list
-
-    def update_list(self,new_list):
-        self.main_list=new_list
 
     def receive_time(self,time):
         self.time=time
 
-    def check_empty_list(self):
-        if self.id>(len(self.main_list)-1):
-            return True
-        else:
-            return False
-
-    def next_process(self):
-        self.id+=1
-
-
-    def get_process(self):
-        self.main_list[self.id].reduce_duration()
-        if self.main_list[self.id].return_duration()==0:
-            self.main_list[self.id].check_duration()
-            self.next_process()
-            if self.check_empty_list()==False:
-                self.calculate_waiting_time()
-
-    def calculate_waiting_time(self):
-        if self.alg==0:
-            tmp=0
-            for i in range(len(self.main_list)):
-                self.main_list[i].write_wait_time(tmp)
-                tmp+=self.main_list[i].return_starting_duration()
-        elif self.alg==1:
-            tmp_time_line=0
-            for i in range(len(self.main_list)):
-                tmp_wait_time=tmp_time_line-self.main_list[i].return_arrival_time()
-                self.main_list[i].write_wait_time(tmp_wait_time)
-                tmp_time_line+=self.main_list[i].return_starting_duration()
-        else:
-            print("Dupa")
-
+    def load_list(self):
+        self.list_to_load=self.g.return_list()
 
     def algorithm(self):
         if self.alg==0:
             self.sorting_algorithm=Fcfs()
         elif self.alg==1:
             self.sorting_algorithm=Sjf_np()
+        else:
+            print("SJF Preemtive")
 
-    def my(self):
+    def sort(self):
+        self.sorting_algorithm.sort_list(self.main_list)
+
+    def get_process(self):
+        if self.check_empty_list() == False:
+            self.main_list[self.current_id].start()
+            self.main_list[self.current_id].reduce_duration()
+
+        self.main_list=self.sorting_algorithm.wait_time(self.main_list)
+
+    def check(self):
+        counter = 0
+        while self.list_to_load:
+            if counter>(len(self.list_to_load)-1):
+                break
+            if self.time==self.list_to_load[counter].return_arrival_time():
+                tmp = self.list_to_load[counter]
+                self.list_to_load.pop(counter)
+                counter = 0
+                self.main_list.append(tmp)
+            counter = counter + 1
+
+
+        self.main_list=self.sorting_algorithm.sort_list(self.main_list)
+
+
+        self.main_list[self.current_id].check_duration()
+        if self.main_list[self.current_id].is_done() == True:
+            self.main_list[self.current_id].print_p()
+            self.current_id += 1
+
+    def check_empty_list(self):
+        if self.current_id>(len(self.main_list)-1):
+            return True
+        else:
+            return False
+
+    def start(self):
+        self.init=False
+
+    def show(self):
         for i in range(len(self.main_list)):
-            print("Process id: "+str(self.main_list[i].return_id())+" Waiting time: " + str(self.main_list[i].return_waiting_time())+" Duration: "+str(self.main_list[i].return_starting_duration())+" Arrival time: "+str(self.main_list[i].return_arrival_time()))
+            print("Process id: "+str(self.main_list[i].return_id())+" Waiting time: " + str(self.main_list[i].return_waiting_time()))
 
 
 
