@@ -31,7 +31,6 @@ class Scheduler:
                 tmp = self.list_to_load[counter]
                 self.list_to_load.pop(counter)
                 self.main_list.append(tmp)
-                tmp.print_pr()
                 self.get_from_list()
             counter = counter + 1
 
@@ -64,6 +63,24 @@ class Scheduler:
         self.main_list[self.current_id].check_duration()
 
         if self.main_list[self.current_id].is_done() == True:
+            if self.alg==0:
+                with open("FCFS Sorted", 'a') as f:
+                    f.write("Id: "+str(self.main_list[self.current_id].return_id()))
+                    f.write(" Duration: "+str(self.main_list[self.current_id].return_start_duration()))
+                    f.write(" Waiting time: "+str(self.main_list[self.current_id].return_waiting_time())+"\n")
+
+            elif self.alg==1:
+                with open("SJF non preemptive Sorted", 'a') as f:
+                    f.write("Id: "+str(self.main_list[self.current_id].return_id()))
+                    f.write(" Duration: "+str(self.main_list[self.current_id].return_start_duration()))
+                    f.write(" Waiting time: "+str(self.main_list[self.current_id].return_waiting_time())+"\n")
+            else:
+                with open("SJF preemptive Sorted", 'a') as f:
+                    f.write("Id: "+str(self.main_list[self.current_id].return_id()))
+                    f.write(" Duration: "+str(self.main_list[self.current_id].return_start_duration()))
+                    f.write(" Waiting time: "+str(self.main_list[self.current_id].return_waiting_time())+"\n")
+
+
             self.current_id += 1
 
     def check_empty_list(self):

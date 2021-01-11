@@ -2,11 +2,13 @@
 class Fcfs:
 
     def sort_list(self,list):
-        n=len(list)
-        for i in range(n):
-            for j in range(0,n-i-1):
-                if list[j].return_arrival_time()>list[j + 1].return_arrival_time() and list[j].return_is_running()==False and list[j].is_done()==False:
-                    list[j], list[j + 1] = list[j + 1], list[j]
+        # n=len(list)
+        # for i in range(n):
+        #     for j in range(0,n-i-1):
+        #         if list[j].return_arrival_time()>list[j + 1].return_arrival_time() and list[j].return_is_running()==False and list[j].is_done()==False:
+        #             list[j], list[j + 1] = list[j + 1], list[j]
+
+        sorted(list,key=(lambda p:p.return_arrival_time() and p.return_is_running()==False and p.is_done()==False))
 
         return list
 

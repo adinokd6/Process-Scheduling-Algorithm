@@ -2,12 +2,15 @@ from process import Process
 
 class Sjf_np:
     def sort_list(self,list):
-        n=len(list)
+        # n=len(list)
         list=self.sort_by_arrival_time(list)
-        for i in range(n):
-            for j in range(0,n-i-1):
-                if list[j].return_start_duration()>list[j + 1].return_start_duration() and list[j].return_is_running()==False and list[j].is_done()==False:
-                    list[j], list[j + 1] = list[j + 1], list[j]
+        # for i in range(n):
+        #     for j in range(0,n-i-1):
+        #         if list[j].return_start_duration()>list[j + 1].return_start_duration() and list[j].return_is_running()==False and list[j].is_done()==False:
+        #             list[j], list[j + 1] = list[j + 1], list[j]
+
+        list.sort(key=lambda p: p.return_duration() and p.return_is_running()==False and p.is_done()==False)
+
         return list
 
     def wait_time(self,list):

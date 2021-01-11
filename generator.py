@@ -55,8 +55,16 @@ class Generator:
     def remove_process(self,number):
         self.list_of_processes.pop(number)
 
-    def write(self,file_path):
-        w=open(file_path,"w")
+    def write(self):
+        counter=0
+        with open("Generated processes",'w') as f:
+            while counter<len(self.list_of_processes):
+                f.write(str(self.list_of_processes[counter].return_id())+" ")
+                f.write(str(self.list_of_processes[counter].return_arrival_time())+" ")
+                f.write(str(self.list_of_processes[counter].return_duration()))
+                f.write("\n")
+                counter=counter+1
+
 
     def new_Process(self,id,arrival_time,duration):
         tmp=Process(id,arrival_time,duration)
@@ -111,6 +119,7 @@ class Generator:
             tmp.append(self.new_Process(tmp_id,self.get_arrival_time(),self.get_duration()))
 
         self.list_of_processes=tmp
+        self.write()
             
 
 

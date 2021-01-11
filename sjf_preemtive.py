@@ -11,10 +11,12 @@ class Sjf_p:
         n=len(list)
         list = self.sort_by_arrival_time(list)
 
-        for i in range(n):
-            for j in range(0, n - i - 1):
-                if list[j].is_done() == False and list[j].return_duration()>list[j + 1].return_duration():
-                    list[j], list[j + 1] = list[j + 1], list[j]
+        # for i in range(n):
+        #     for j in range(0, n - i - 1):
+        #         if list[j].is_done() == False and list[j].return_duration()>list[j + 1].return_duration():
+        #             list[j], list[j + 1] = list[j + 1], list[j]
+
+        list.sort(key=(lambda p: p.is_done()==False and p.return_duration()))
 
 
         for i in range(n):
@@ -43,6 +45,10 @@ class Sjf_p:
 
     def make_intervals(self): #TODO indeks tablocy trzeba przypilnowac jak sie go dynamicznie zmienia
         print("Dupa")
+
+
+
+
 
 
 
