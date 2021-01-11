@@ -22,6 +22,20 @@ class Scheduler:
     def load_list(self):
         self.list_to_load=self.g.return_list()
 
+    def get_from_list(self):
+        counter = 0
+        while self.list_to_load:
+            if counter>(len(self.list_to_load)-1):
+                break
+            if self.time==self.list_to_load[counter].return_arrival_time():
+                tmp = self.list_to_load[counter]
+                self.list_to_load.pop(counter)
+                self.main_list.append(tmp)
+                tmp.print_pr()
+                self.get_from_list()
+            counter = counter + 1
+
+
     def algorithm(self):
         if self.alg==0:
             self.sorting_algorithm=Fcfs()
@@ -41,16 +55,7 @@ class Scheduler:
         self.main_list=self.sorting_algorithm.wait_time(self.main_list)
 
     def check(self):
-        counter = 0
-        while self.list_to_load:
-            if counter>(len(self.list_to_load)-1):
-                break
-            if self.time==self.list_to_load[counter].return_arrival_time():
-                tmp = self.list_to_load[counter]
-                self.list_to_load.pop(counter)
-                counter = 0
-                self.main_list.append(tmp)
-            counter = counter + 1
+        self.get_from_list()
 
 
         self.main_list=self.sorting_algorithm.sort_list(self.main_list)

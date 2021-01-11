@@ -1,9 +1,11 @@
 from process import Process
+import copy
 
 class Sjf_p:
     def __init__(self):
         self.process_list=[]
         self.counter=0
+
     def sort_list(self,list):
 
         n=len(list)
@@ -17,7 +19,7 @@ class Sjf_p:
 
         for i in range(n):
             if list[i].return_is_running()==True:
-                self.process_list.append(list[i])
+                self.process_list.append(copy.copy(list[i]))
             list[i].pause()
 
         return list
@@ -40,22 +42,11 @@ class Sjf_p:
 
 
     def make_intervals(self): #TODO indeks tablocy trzeba przypilnowac jak sie go dynamicznie zmienia
-        n=len(self.process_list)
-        tmp=[]
-        for i in  range(n):
-            print(n)
-            for j in range(0,n-i-1):
-                if self.process_list[j].return_id()==self.process_list[j + 1].return_id():
-                    self.process_list[j].calculate_mileage()
-            tmp.append(self.process_list[i])
-
-
-        self.process_list=tmp
-
+        print("Dupa")
 
 
 
     def show(self):
-        self.make_intervals()
+        #self.make_intervals()
         for i in range(len(self.process_list)):
-            print("Process id: " + str(self.process_list[i].return_id()) + " Duration: " + str(self.process_list[i].return_lt()))
+            print("Process id: " + str(self.process_list[i].return_id()) + " Duration: " + str(self.process_list[i].return_duration()))
