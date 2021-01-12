@@ -30,6 +30,7 @@ class Scheduler:
             if self.time==self.list_to_load[counter].return_arrival_time():
                 tmp = self.list_to_load[counter]
                 self.list_to_load.pop(counter)
+                #5/CyLQNAve0YQhMuexWN5EarH6XWI/aFwJ7MPX17tz0=
                 self.main_list.append(tmp)
                 self.get_from_list()
             counter = counter + 1
