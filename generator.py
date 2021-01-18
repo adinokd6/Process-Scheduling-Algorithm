@@ -12,12 +12,11 @@ class Generator:
             self.file_path=f
             self.read()
 
-
     def set_conditions(self):
         number_of_processes=int(input("Liczba procesow: "))
         mean_duration=int(input("Srednia wartosc: "))
         standard_deviation=int(input("Odchylenie standardowe: "))
-        randomization_arrival_time=int(input("Rozne czasy przyjscia?: 1-Tak 0-Nie: "))
+        randomization_arrival_time=int(input("Rozne czasy przyjscia?: 2 - Zerowy czas przyjscia 1-Tak 0-Nie: "))
         self.number_of_processes=number_of_processes
         self.mean_duration=mean_duration
         self.standard_deviation=standard_deviation
@@ -26,6 +25,7 @@ class Generator:
         self.random_duration()
         self.random_arrival_time()
         self.generate_processes()
+
 
     def read(self):
         f=open(self.file_path,'r').read()
@@ -71,7 +71,7 @@ class Generator:
         tmp=Process(id,arrival_time,duration)
         return tmp
 
-    def random_duration(self): #TODO generator losuje liczby i duration niekiedy wynosi 0. Trzeba to jakos naprawic
+    def random_duration(self):
         arr = numpy.random.normal(loc=self.mean_duration, scale=self.standard_deviation,size=(self.number_of_processes+100)).round(0).astype(numpy.int)  # array of random duration time
         tmp_arr=arr.tolist()
         var=0
@@ -84,22 +84,26 @@ class Generator:
     def random_arrival_time(self):
         sum=0
         self.numbers_arrival=[]
-        set_of_arrivals=set()
+        if self.randomization_arrival_time == 2:
+            for i in range(self.number_of_processes):
+                self.numbers_arrival.append(0)
+        else:
+            set_of_arrivals=set()
 
-        for i in range(len(self.numbers_duration)):
-            tmp=random.randint(0,sum) #
-            if self.randomization_arrival_time==1:
-                while tmp in set_of_arrivals:
-                    tmp=random.randint(0,sum)
+            for i in range(len(self.numbers_duration)):
+                tmp=random.randint(0,sum) #
+                if self.randomization_arrival_time==1:
+                    while tmp in set_of_arrivals:
+                        tmp=random.randint(0,sum)
 
-            set_of_arrivals.add(tmp)
+                set_of_arrivals.add(tmp)
 
-            self.numbers_arrival.append(tmp)
-            sum = sum + self.numbers_duration[i]
+                self.numbers_arrival.append(tmp)
+                sum = sum + self.numbers_duration[i]
 
-        arr=numpy.array(self.numbers_arrival)
-        tmp=numpy.sort(arr)
-        self.numbers_arrival=tmp.tolist()
+            arr=numpy.array(self.numbers_arrival)
+            tmp=numpy.sort(arr)
+            self.numbers_arrival=tmp.tolist()
 
 
     def get_duration(self):
