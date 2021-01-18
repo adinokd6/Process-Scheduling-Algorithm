@@ -8,6 +8,8 @@ class Process:
         self.start_duration=duration
         self.arrival_time=arrival_time
         self.waiting_time=0
+        self.end_time=0
+        self.processing_time=0
         self.is_running=False
         self.ended=False
 
@@ -57,6 +59,18 @@ class Process:
 
     def return_is_running(self):
         return self.is_running
+
+    def write_end_time(self,time):
+        self.end_time=time
+
+    def calculate_processing_time(self):
+        self.processing_time=self.end_time-self.arrival_time
+
+    def return_processing_time(self):
+        return self.processing_time
+
+    def return_end_time(self):
+        return self.end_time
 
     def print_p(self):
         print("Id: "+str(self.id)+" Is done: "+str(self.is_done()))

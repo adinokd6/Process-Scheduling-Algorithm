@@ -20,6 +20,7 @@ class CPU:
             self.s.receive_time(self.cycle)
             return True
         else:
+            self.s.calculate()
             return False
 
 
