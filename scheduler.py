@@ -3,6 +3,8 @@ import numpy
 from fcfs_algorithm import Fcfs
 from sjf_non_preemptive import Sjf_np
 from sjf_preemtive import Sjf_p
+import sys
+sys.setrecursionlimit(2000) #tdoing recursion in line 30 is limited to max 2000 processes!
 
 class Scheduler:
     def __init__(self,state=0,alg=0): #state can be read or generate (default is set to generate) e.g read=1 generate=0
@@ -115,9 +117,6 @@ class Scheduler:
             tmp_duration.append(self.main_list[i].return_start_duration())
             tmp_processing_time.append(self.main_list[i].return_processing_time())
             tmp_waiting_time.append(self.main_list[i].return_waiting_time())
-        # numpy_duration=numpy.array(tmp_duration)
-        # numpy_processing_time=numpy.array(tmp_processing_time)
-        # numpy_waiting_time=numpy.array(tmp_waiting_time)
         if self.alg == 0:
             with open("FCFS Sorted", 'a') as f:
                 f.write("Sum of duration: "+str(numpy.sum(tmp_duration))+" Average duration: "+str(numpy.mean(tmp_duration).round(2))+" Standard deviation: +/- "+str(numpy.std(tmp_duration).round(2)))

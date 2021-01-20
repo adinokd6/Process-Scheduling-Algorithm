@@ -76,4 +76,19 @@ class Process:
         print("Id: "+str(self.id)+" Is done: "+str(self.is_done()))
 
     def print_pr(self):
-        print("Id: " + str(self.id) + " Duration: " + str(self.return_duration()))
+        print("Id: " + str(self.id) + " Duration: " + str(self.return_start_duration()))
+
+    def run_sjf(self):
+        if self.return_is_running()==True:
+            return 0
+        else:
+            return 1
+
+    def done_sjf(self):
+        if self.is_done()==True:
+            return 0
+        else:
+            return 1
+
+
+

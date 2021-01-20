@@ -11,11 +11,6 @@ class Sjf_p:
         n=len(list)
         list = self.sort_by_arrival_time(list)
 
-        # for i in range(n):
-        #     for j in range(0, n - i - 1):
-        #         if list[j].is_done() == False and list[j].return_duration()>list[j + 1].return_duration():
-        #             list[j], list[j + 1] = list[j + 1], list[j]
-
         list.sort(key=(lambda p: p.is_done()==False and p.return_duration()))
 
 
@@ -35,24 +30,10 @@ class Sjf_p:
         return list
 
     def sort_by_arrival_time(self,list):
-        n=len(list)
-        for i in range(n):
-            for j in range(0,n-i-1):
-                if list[j].return_arrival_time()>list[j + 1].return_arrival_time() and list[j].is_done()==False:
-                    list[j], list[j + 1] = list[j + 1], list[j]
+        sorted(list,key=(lambda p: p.return_arrival_time() and p.return_is_running() == False and p.is_done() == False))
         return list
 
 
-    def make_intervals(self): #TODO indeks tablocy trzeba przypilnowac jak sie go dynamicznie zmienia
-        print("Dupa")
-
-
-
-
-
-
-
     def show(self):
-        #self.make_intervals()
         for i in range(len(self.process_list)):
             print("Process id: " + str(self.process_list[i].return_id()) + " Duration: " + str(self.process_list[i].return_duration()))
