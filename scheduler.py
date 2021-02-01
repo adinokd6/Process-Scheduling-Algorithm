@@ -87,26 +87,14 @@ class Scheduler:
         self.main_list[self.current_id].calculate_processing_time()
         if self.alg == 0:
             with open("FCFS Sorted", 'a') as f:
-                f.write("Id: " + str(self.main_list[self.current_id].return_id()))
-                f.write(" Duration: " + str(self.main_list[self.current_id].return_start_duration()))
-                f.write(" Waiting time: " + str(self.main_list[self.current_id].return_waiting_time()))
-                f.write(" End time: " + str(self.main_list[self.current_id].return_end_time()))
-                f.write(" Processing time: " + str(self.main_list[self.current_id].return_processing_time()) + "\n")
+                self.write_once(f)
 
         elif self.alg == 1:
             with open("SJF non preemptive Sorted", 'a') as f:
-                f.write("Id: " + str(self.main_list[self.current_id].return_id()))
-                f.write(" Duration: " + str(self.main_list[self.current_id].return_start_duration()))
-                f.write(" Waiting time: " + str(self.main_list[self.current_id].return_waiting_time()))
-                f.write(" End time: " + str(self.main_list[self.current_id].return_end_time()))
-                f.write(" Processing time: " + str(self.main_list[self.current_id].return_processing_time()) + "\n")
+                self.write_once(f)
         else:
             with open("SJF preemptive Sorted", 'a') as f:
-                f.write("Id: " + str(self.main_list[self.current_id].return_id()))
-                f.write(" Duration: " + str(self.main_list[self.current_id].return_start_duration()))
-                f.write(" Waiting time: " + str(self.main_list[self.current_id].return_waiting_time()))
-                f.write(" End time: " + str(self.main_list[self.current_id].return_end_time()))
-                f.write(" Processing time: " + str(self.main_list[self.current_id].return_processing_time()) + "\n")
+                self.write_once(f)
 
 
     def calculate(self):
@@ -119,19 +107,13 @@ class Scheduler:
             tmp_waiting_time.append(self.main_list[i].return_waiting_time())
         if self.alg == 0:
             with open("FCFS Sorted", 'a') as f:
-                f.write("Sum of duration: "+str(numpy.sum(tmp_duration))+" Average duration: "+str(numpy.mean(tmp_duration).round(2))+" Standard deviation: +/- "+str(numpy.std(tmp_duration).round(2)))
-                f.write("Sum of waiting time: " +str(numpy.sum(tmp_waiting_time))+" Average waiting time: " +str(numpy.mean(tmp_waiting_time).round(2))+" Standard deviation: +/- " +str(numpy.std(tmp_waiting_time).round(2)))
-                f.write("Sum of processing time: " +str(numpy.sum(tmp_processing_time))+" Average processing time: " +str(numpy.mean(tmp_processing_time).round(2))+" Standard deviation: +/- " +str(numpy.std(tmp_processing_time).round(2)))
+                self.write_end(f,tmp_duration,tmp_waiting_time,tmp_processing_time)
         elif self.alg == 1:
             with open("SJF non preemptive Sorted", 'a') as f:
-                f.write("Sum of duration: "+str(numpy.sum(tmp_duration))+" Average duration: "+str(numpy.mean(tmp_duration).round(2))+" Standard deviation: +/- "+str(numpy.std(tmp_duration).round(2)))
-                f.write("Sum of waiting time: " +str(numpy.sum(tmp_waiting_time))+" Average waiting time: " +str(numpy.mean(tmp_waiting_time).round(2))+" Standard deviation: +/- " +str(numpy.std(tmp_waiting_time).round(2)))
-                f.write("Sum of processing time: " +str(numpy.sum(tmp_processing_time))+" Average processing time: " +str(numpy.mean(tmp_processing_time).round(2))+" Standard deviation: +/- " +str(numpy.std(tmp_processing_time).round(2)))
+                self.write_end(f, tmp_duration, tmp_waiting_time, tmp_processing_time)
         else:
             with open("SJF preemptive Sorted", 'a') as f:
-                f.write("Sum of duration: "+str(numpy.sum(tmp_duration))+" Average duration: "+str(numpy.mean(tmp_duration).round(2))+" Standard deviation: +/- "+str(numpy.std(tmp_duration).round(2)))
-                f.write("Sum of waiting time: " +str(numpy.sum(tmp_waiting_time))+" Average waiting time: " +str(numpy.mean(tmp_waiting_time).round(2))+" Standard deviation: +/- " +str(numpy.std(tmp_waiting_time).round(2)))
-                f.write("Sum of processing time: " +str(numpy.sum(tmp_processing_time))+" Average processing time: " +str(numpy.mean(tmp_processing_time).round(2))+" Standard deviation: +/- " +str(numpy.std(tmp_processing_time).round(2)))
+                self.write_end(f, tmp_duration, tmp_waiting_time, tmp_processing_time)
 
 
     def show(self):
@@ -140,6 +122,22 @@ class Scheduler:
         else:
             for i in range(len(self.main_list)):
                 print("Process id: "+str(self.main_list[i].return_id())+" Waiting time: " + str(self.main_list[i].return_waiting_time()))
+
+
+    def write_once(self,file):
+        file.write("Id: " + str(self.main_list[self.current_id].return_id()))
+        file.write(" Duration: " + str(self.main_list[self.current_id].return_start_duration()))
+        file.write(" Waiting time: " + str(self.main_list[self.current_id].return_waiting_time()))
+        file.write(" End time: " + str(self.main_list[self.current_id].return_end_time()))
+        file.write(" Processing time: " + str(self.main_list[self.current_id].return_processing_time()) + "\n")
+
+
+
+    def write_end(self,file,duration,waiting_time,processing_time):
+        file.write("Sum of duration: " + str(numpy.sum(duration)) + " Average duration: " + str(numpy.mean(duration).round(2)) + " Standard deviation: +/- " + str(numpy.std(duration).round(2)))
+        file.write("Sum of waiting time: " + str(numpy.sum(waiting_time)) + " Average waiting time: " + str(numpy.mean(waiting_time).round(2)) + " Standard deviation: +/- " + str(numpy.std(waiting_time).round(2)))
+        file.write("Sum of processing time: " + str(numpy.sum(processing_time)) + " Average processing time: " + str(numpy.mean(processing_time).round(2)) + " Standard deviation: +/- " + str(numpy.std(processing_time).round(2)))
+
 
 
 
